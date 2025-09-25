@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add User</title>
+</head>
+<body>
+  <h1>Add User</h1>
+  <form onsubmit="createUser(event)">
+    <input type="text" id="name" placeholder="Name" required><br><br>
+    <input type="email" id="email" placeholder="Email" required><br><br>
+    <input type="text" id="password" placeholder="Password" required><br><br>
+    <button type="submit">Save</button>
+    <a href="dashboard.html"><button type="button">Cancel</button></a>
+  </form>
+
+  <script>
+    const API_URL = "http://localhost:3000/admin";
+
+    async function createUser(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      await fetch(`${API_URL}/create`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email,password })
+      });
+
+      window.location.href = "dashboard.html"; // back to list
+    }
+  </script>
+</body>
+</html>

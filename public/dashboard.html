@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User List</title>
+  <style>
+    table { border-collapse: collapse; width: 80%; margin-top: 20px; }
+    th, td { border: 1px solid #333; padding: 8px; text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>User List</h1>
+  <a href="add-user.html"><button>Add User</button></a>
+  <table id="userTable">
+    <thead>
+      <tr><th>ID</th><th>Name</th><th>Email</th><th>Actions</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    const API_URL = "http://localhost:3000/admin";
+
+    async function loadUsers() {
+      const res = await fetch(`${API_URL}/list`);
+      const users = await res.json();
+      const tbody = document.querySelector("#userTable tbody");
+      tbody.innerHTML = "";
+      users.forEach(user => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.email}</td>
+            <td>
+              <a href="edit-user.html?id=${user.id}"><button>Edit</button></a>
+              <button onclick="deleteUser(${user.id})">Delete</button>
+            </td>
+          </tr>`;
+      });
+    }
+
+    async function deleteUser(id) {
+      await fetch(`${API_URL}/delete/${id}`, { method: "DELETE" });
+      loadUsers();
+    }
+
+    loadUsers();
+  </script>
+</body>
+</html>

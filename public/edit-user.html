@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit User</title>
+</head>
+<body>
+  <h1>Edit User</h1>
+  <form onsubmit="updateUser(event)">
+    <input type="hidden" id="userId">
+    <input type="text" id="name" placeholder="Name" required><br><br>
+    <input type="email" id="email" placeholder="Email" required><br><br>
+     <input type="text" id="password" placeholder="Password" required><br><br>
+    <button type="submit">Update</button>
+    <a href="dashboard.html"><button type="button">Cancel</button></a>
+  </form>
+
+  <script>
+    const API_URL = "http://localhost:3000/admin";
+
+    // URL से id निकालना
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get("id");
+
+    // पहले user data लोड करो
+    async function loadUser() {
+      const res = await fetch(`${API_URL}/list`);
+      const users = await res.json();
+      const user = users.find(u => u.id == userId);
+      if (user) {
+        document.getElementById("userId").value = user.id;
+        document.getElementById("name").value = user.name;
+        document.getElementById("email").value = user.email;
+      //   document.getElementById("password").value = user.password;
+      }
+    }
+
+    async function updateUser(e) {
+      e.preventDefault();
+      const id = document.getElementById("userId").value;
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      await fetch(`${API_URL}/update`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, name, email,password })
+      });
+
+      window.location.href = "dashboard.html"; // back to list
+    }
+
+    loadUser();
+  </script>
+</body>
+</html>
