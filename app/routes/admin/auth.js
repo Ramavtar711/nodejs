@@ -7,6 +7,11 @@ module.exports = function(app) {
    const verifyToken = require('../../middleware/auth');
 
 
+
+
+app.route('/admin/panel').get(admin.showLoginPage);
+app.route('/admin/dashboard').get(admin.dashboard);
+
   // todoList Routes
  app.route('/admin/login').post(admin.login);
 app.route('/admin/create').post(admin.create);

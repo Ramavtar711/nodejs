@@ -3,8 +3,16 @@ const jwt = require('jsonwebtoken');
 const SECRET_KEY = 'your_secret_key'; 
 var UserModel = require('../../model/admin/userModel.js');
 var db = require('../../model/db.js');
+const path = require('path');
 
 
+exports.showLoginPage = (req, res) => {
+      res.sendFile(path.join(__dirname, '../../../public/login.html'));
+};
+
+exports.dashboard = (req, res) => {
+    res.sendFile(path.join(__dirname, '../../../public/dashboard.html'));
+};
 
 
 exports.login = async (req, res) => {

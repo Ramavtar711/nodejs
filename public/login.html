@@ -43,7 +43,7 @@
           localStorage.setItem("token", data.token);
           localStorage.setItem("user", JSON.stringify(data.user));
           alert(`Welcome ${data.user.name}`);
-          window.location.href = "dashboard.html"; // Redirect to dashboard
+          window.location.href = "http://localhost:3000/admin/dashboard"; // Redirect to dashboard
         } else {
           errorMsg.textContent = data.message;
         }
